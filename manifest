@@ -1,6 +1,4 @@
 COPYING
-README
-INSTALL
 manifest
 pregexp.scm
 pregexp.lisp
@@ -12,6 +10,7 @@ tester.scm
 tester.lisp
 pregexp-test-guile.scm
 README.md
+INSTALL.md
 
 dialects/*.scm
 ;known-bugs/[s0-9]*
