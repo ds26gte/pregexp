@@ -1,10 +1,9 @@
 # pregexp
 
-pregexp is a portable implementation of regular
-expressions (regexps) that runs in any R5RS- or
-R4RS-compliant implementation of the programming
-language Scheme.  The regexp notation supported is
-compatible with Perl's, and includes such
+pregexp is a portable implementation of regular expressions
+(regexps) that runs in any R5RS- or R4RS-compliant implementation
+of the programming language Scheme, and Common Lisp.  The regexp
+notation supported is compatible with Perl's, and includes such
 powerful directives as
 
 * numeric quantifiers
@@ -24,7 +23,9 @@ powerful directives as
 This is in addition to the more basic directives
 familiar to all regexp users.
 
-To use, simply load the file `pregexp.scm` into your
+## Scheme
+
+Simply load the file `pregexp.scm` into your
 Scheme.  Alternatively, if your dialect allows it, you
 can install pregexp as a module -- consult the
 file INSTALL.
@@ -42,9 +43,13 @@ access to the procedures
 The use of these procedures is described fully and with
 examples in the pregexp manual.
 
-pregexp.lisp is a Common Lisp implementation of the same
-routines, with the same behavior (modulo transparent
-stuff like nil being the CL equivalent of #f).
+## Common Lisp
+
+`pregexp.lisp` is a Common Lisp implementation of the same
+routines as in `pregexp.scm`, with the same behavior (modulo
+transparent stuff like nil being the CL equivalent of #f).
+
+## Documentation
 
 The pregexp distribution with documentation may be
 downloaded from a link provided in the pregexp manual
