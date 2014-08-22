@@ -51,7 +51,5 @@ transparent stuff like nil being the CL equivalent of #f).
 
 ## Documentation
 
-The pregexp distribution with documentation may be
-downloaded from a link provided in the pregexp manual
-on the World Wide Web at
+The pregexp manual is at
 http://www.ccs.neu.edu/~dorai/pregexp/index.html.
