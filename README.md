@@ -2,18 +2,16 @@
 
 pregexp is a portable implementation of regular expressions
 (regexps) that runs in any R5RS- or R4RS-compliant implementation
-of the programming language Scheme, and Common Lisp.  The regexp
+of the programming language Scheme, and in Common Lisp.  The regexp
 notation supported is compatible with Perl's, and includes such
 powerful directives as
 
 * numeric quantifiers
 * non-greedy quantifiers
 * POSIX character classes
-* non-capturing clusters (in addition to the usual
-    capturing kind)
-* selective (ie, per-cluster) case-insensitivity
-* selective space-insensitivity (with provision
-    for comments)
+* non-capturing clusters (in addition to the usual capturing kind)
+* selective (i.e., per-cluster) case-insensitivity
+* selective space-insensitivity (with provision for comments)
 * backreferences
 * alternation
 * backtrack pruning
