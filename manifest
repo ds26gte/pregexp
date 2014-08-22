@@ -1,0 +1,17 @@
+COPYING
+README
+INSTALL
+manifest
+pregexp.scm
+pregexp.lisp
+[a-y]*.tex
+pregexp.bib
+history
+pregexp-test.scm
+tester.scm
+tester.lisp
+pregexp-test-guile.scm
+README.md
+
+dialects/*.scm
+;known-bugs/[s0-9]*
