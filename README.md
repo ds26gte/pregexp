@@ -28,7 +28,7 @@ familiar to all regexp users.
 Simply load the file `pregexp.scm` into your
 Scheme.  Alternatively, if your dialect allows it, you
 can install pregexp as a module -- consult the
-file INSTALL.
+file [INSTALL.md](./INSTALL.md).
 
 However you load pregexp, you will now have
 access to the procedures
