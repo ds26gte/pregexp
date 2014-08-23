@@ -30,7 +30,7 @@ or full pathname.  You will be asked your Scheme
 dialect name: answer plt, gauche, guile, or scsh
 as appropriate.
 
-# PLT
+## PLT
 
 For PLT, the generated file is `pregexp.ss`,
 which can be loaded using the require syntax.  If you
