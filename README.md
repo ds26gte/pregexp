@@ -3,20 +3,30 @@
 pregexp is a portable implementation of regular expressions
 (regexps) that runs in any R5RS- or R4RS-compliant implementation
 of the programming language Scheme, and in Common Lisp.  The regexp
-notation supported is compatible with Perl's, and includes such
+notation supported is compatible with Perl’s, and includes such
 powerful directives as
 
-* numeric quantifiers
-* non-greedy quantifiers
-* POSIX character classes
-* non-capturing clusters (in addition to the usual capturing kind)
-* selective (i.e., per-cluster) case-insensitivity
-* selective space-insensitivity (with provision for comments)
-* backreferences
-* alternation
-* backtrack pruning
-* lookahead (positive and negative)
-* lookbehind (positive and negative)
+• numeric quantifiers
+
+• non-greedy quantifiers
+
+• POSIX character classes
+
+• non-capturing clusters (in addition to the usual capturing kind)
+
+• selective (i.e., per-cluster) case-insensitivity
+
+• selective space-insensitivity (with provision for comments)
+
+• backreferences
+
+• alternation
+
+• backtrack pruning
+
+• lookahead (positive and negative)
+
+• lookbehind (positive and negative)
 
 This is in addition to the more basic directives
 familiar to all regexp users.
@@ -25,18 +35,23 @@ familiar to all regexp users.
 
 Simply load the file `pregexp.scm` into your
 Scheme.  Alternatively, if your dialect allows it, you
-can install pregexp as a module -- consult the
+can install pregexp as a module — consult the
 file [INSTALL.md](./INSTALL.md).
 
 However you load pregexp, you will now have
 access to the procedures
 
-* pregexp
-* pregexp-match-positions
-* pregexp-match
-* pregexp-split
-* pregexp-replace
-* pregexp-replace*
+• pregexp
+
+• pregexp-match-positions
+
+• pregexp-match
+
+• pregexp-split
+
+• pregexp-replace
+
+• pregexp-replace⋆
 
 The use of these procedures is described fully and with
 examples in the pregexp manual.
