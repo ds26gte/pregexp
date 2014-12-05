@@ -7,16 +7,16 @@ If you use Common Lisp, load `pregexp.lisp`.
 
 Alternatively, if your Scheme dialect is either PLT
 Scheme, Gauche, Guile, or Scsh, you can exploit
-your dialect's module facility.  A module-ized pregexp
+your dialect’s module facility.  A module-ized pregexp
 has two advantages:
 
-* It makes the interface to the
+• It makes the interface to the
 pregexp code cleaner, as the module hides
 implementation details and avoids polluting the global
 namespace.
 
-* Portions of the pregexp code are
-rewritten to take advantage of the dialect's
+• Portions of the pregexp code are
+rewritten to take advantage of the dialect’s
 extensions.
 
 Use the scmxlate package to
@@ -27,7 +27,7 @@ https://github.com/ds26gte/scmxlate.
 Start Scheme in the `pregexp` directory, and load the
 file `scmxlate/scmxlate.scm`, using the correct relative
 or full pathname.  You will be asked your Scheme
-dialect name: answer plt, gauche, guile, or scsh
+dialect’s name: answer plt, gauche, guile, or scsh
 as appropriate.
 
 ## PLT
@@ -39,7 +39,7 @@ you can load it with
 
 ```
 (require (lib "pregexp.ss"))
-```
+````
 
 without worrying about its pathname.
 
@@ -47,12 +47,12 @@ without worrying about its pathname.
 
 For Gauche, the generated file is
 `gauchelib/pregexp.scm`.  If you place it
-in one of the directories in `*load-path*`, you can
+in one of the directories in `⋆load-path⋆`, you can
 do
 
 ```
 (use pregexp)
-```
+````
 
 without worrying about its pathname.
 
@@ -66,7 +66,7 @@ subdirectory in your
 
 ```
 (use-modules (ice-9 pregexp))
-```
+````
 
 ## Scsh
 
@@ -79,4 +79,4 @@ the correct pathname for `pregexp.scm`).
 ```
 ,config ,load pregexp.scm
 ,open pregexp
-```
+````
