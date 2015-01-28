@@ -51,7 +51,7 @@ access to the procedures
 
 • pregexp-replace
 
-• pregexp-replace⋆
+• pregexp-replace*
 
 The use of these procedures is described fully and with
 examples in the pregexp manual.
