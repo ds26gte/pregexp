@@ -1,4 +1,4 @@
-.= pregexp
+= pregexp
 
 pregexp is a portable implementation of regular expressions
 (regexps) that runs in any R5RS- or R4RS-compliant implementation
@@ -31,12 +31,12 @@ powerful directives as
 This is in addition to the more basic directives
 familiar to all regexp users.
 
-.== Scheme
+== Scheme
 
 Simply load the file pregexp.scm into your Scheme.
 Alternatively, if your dialect allows it, you can install pregexp
 as a module — consult the file
-https://github.com/ds26gte/pregexp/blob/master/INSTALL.
+link:INSTALL[INSTALL].
 
 However you load pregexp, you will now have access to the
 procedures
@@ -56,13 +56,13 @@ procedures
 The use of these procedures is described fully and with examples
 in the pregexp manual.
 
-.== Common Lisp
+== Common Lisp
 
 pregexp.lisp is a Common Lisp implementation of the same
 routines as in pregexp.scm, with the same behavior (modulo
 transparent stuff like nil being the CL equivalent of #f).
 
-.== Documentation
+== Documentation
 
 The pregexp manual is at
 http://ds26gte.github.io/pregexp/index.html.
