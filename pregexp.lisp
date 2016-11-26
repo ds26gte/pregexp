@@ -1,7 +1,7 @@
 ;Portable regular expressions for Common Lisp
 ;Dorai Sitaram
 
-(defparameter *pregexp-version* 20090325) ;last change
+(defparameter *pregexp-version* 20180617) ;last change
 
 (defparameter *pregexp-comment-char* #\;)
 
@@ -631,6 +631,7 @@
     (loop
       (when (< i 0) (return (concatenate 'string r)))
       (let ((c (char s i)))
+        (decf i)
         (push c r)
         (when (member c '(#\\ #\. #\? #\* #\+ #\| #\^ #\$
                         #\[ #\] #\{ #\} #\( #\)))

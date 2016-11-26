@@ -1,3 +1,8 @@
+2018 June 17
+
+CL version of pregexp-quote infinite-loop bugfix. From Kaveh Yousefi
+(KaYousefi AT online DOT de).
+
 2014 Aug 22
 
 Added pregexp-test-guile.scm.

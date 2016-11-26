@@ -1,4 +1,4 @@
-% Last change 2015-06-01
+% Last change 2016-11-26
 \input pregexp-mac
 
 \title{pregexp: \\
@@ -20,7 +20,7 @@ regexes}) that runs in any Scheme
 that complies with R4RS, R5RS or R6RS~\cite{r6rs}.  It
 provides regular expressions
 modeled on
-Perl's~\cite{friedl:regex,pperl}, and includes such
+Perl’s~\cite{friedl:regex,pperl}, and includes such
 powerful directives as numeric and nongreedy
 quantifiers, capturing and non-capturing clustering,
 POSIX character classes, selective case- and
@@ -33,7 +33,7 @@ regexp users.
 To use, simply load the file \p{pregexp.scm} into
 your Scheme.
 (Alternatively, if your dialect allows it, you can
-install \p{pregexp} as a {\em module} --- consult
+install \p{pregexp} as a {\em module} — consult
 the file
 \urlh{https://github.com/ds26gte/pregexp/blob/master/INSTALL}{INSTALL} in the distribution.)
 
@@ -68,31 +68,31 @@ metacharacters}, and some character sequences act as
 {\em metasequences}.  That is, they specify something
 other than their literal selves.  For example, in the
 pattern \q{"a.c"}, the characters \p{a} and \p{c} do
-stand for themselves but the {\em metacharacter} `\p{.}'
+stand for themselves but the {\em metacharacter} ‘\p{.}’
 can match {\em any} character (other than
 newline).  Therefore, the pattern \q{"a.c"}
 matches an \p{a}, followed by {\em any} character,
 followed by a \p{c}.
 
-If we needed to match the character `\p{.}' itself,
+If we needed to match the character ‘\p{.}’ itself,
 we {\em escape} it, ie, precede it with a backslash
 (\p{\}).  The character sequence \p{\.} is thus a {\em
-metasequence}, since it doesn't match itself but rather
-just `\p{.}'.  So, to match \p{a} followed by a literal
-`\p{.}' followed by \p{c}, we use the regexp pattern
+metasequence}, since it doesn’t match itself but rather
+just ‘\p{.}’.  So, to match \p{a} followed by a literal
+‘\p{.}’ followed by \p{c}, we use the regexp pattern
 \q{"a\\.c"}.\f{The double backslash is an artifact of
 Scheme strings, not the regexp pattern itself.  When we
 want a literal backslash inside a Scheme string, we
 must escape it so that it shows up in the string at
 all. Scheme strings use backslash as the escape
-character, so we end up with two backslashes --- one
+character, so we end up with two backslashes — one
 Scheme-string backslash to escape the regexp backslash,
 which then escapes the dot.  Another character that
 would need escaping inside a Scheme string is
 \ifx\newenvironment\PLAINTEX
-`\p{"}'.
+‘\p{"}’.
 \else
-`{\tt"}'.\fi
+‘{\tt"}’.\fi
 }
 Another example of a metasequence is \p{\t}, which is a
 readable way to represent the tab character.
@@ -106,7 +106,7 @@ representation called the {\em S-regexp}, where {\em S}
 can stand for {\em Scheme}, {\em symbolic}, or
 {\em s-expression}.  S-regexps are more verbose
 and less readable than U-regexps, but they are much
-easier for Scheme's recursive procedures to navigate.
+easier for Scheme’s recursive procedures to navigate.
 
 %\section{Regexp procedures provided by \p{pregexp.scm}}
 \section{Regexp procedures}
@@ -174,7 +174,7 @@ the matching substring.
 => "needle"
 }
 
-Here, \q{pregexp-match-positions}'s return list contains only
+Here, \q{pregexp-match-positions}’s return list contains only
 one index pair, and that pair represents the entire
 substring matched by the regexp.  When we discuss
 {\em subpatterns} later, we will see how a single match
@@ -263,7 +263,7 @@ is the {\em insert string} (string to be inserted).
 => "liberty"
 }
 
-\n If the pattern doesn't occur in the text
+\n If the pattern doesn’t occur in the text
 string, the returned string is identical (\q{eq?})
 to the text string.
 
@@ -279,7 +279,7 @@ string:
 => "liberty egality fratyrnity"
 }
 
-\n As with \q{pregexp-replace}, if the pattern doesn't
+\n As with \q{pregexp-replace}, if the pattern doesn’t
 occur in the text string, the returned string is
 identical (\q{eq?}) to the text string.
 
@@ -339,8 +339,8 @@ a {\em word boundary} exists.
 => ((8 . 12))
 }
 
-\n The \p{yack} in \p{yackety} doesn't end at a word
-boundary so it isn't matched.  The second \p{yack} does
+\n The \p{yack} in \p{yackety} doesn’t end at a word
+boundary so it isn’t matched.  The second \p{yack} does
 and is.
 
 The metasequence \p{\B} has the opposite effect
@@ -352,7 +352,7 @@ does not exist.
 => ((3 . 5))
 }
 
-\n The \p{an} that doesn't end in a word boundary
+\n The \p{an} that doesn’t end in a word boundary
 is matched.
 
 \subsection{Characters and character classes}
@@ -405,21 +405,21 @@ something quite different from what it means outside.
 Most other metacharacters (\p{.}, \p{*}, \p{+}, \p{?},
 etc) cease to be metacharacters when inside brackets,
 although you may still escape them for peace of
-mind.  \p{-} is a metacharacter only when it's
+mind.  \p{-} is a metacharacter only when it’s
 inside brackets, and neither the first nor the last character.
 
 Bracketed character classes cannot contain other
 bracketed character classes (although they contain
-certain other types of character classes --- see
+certain other types of character classes — see
 below).  Thus a left bracket (\p{[})
-inside a bracketed character class doesn't have to be a
+inside a bracketed character class doesn’t have to be a
 metacharacter; it can stand for itself.  Eg,
 \q{"[a[b]"} matches \p{a}, \p{[}, and \p{b}.
 
 Furthermore, since empty bracketed character classes
 are disallowed, a right bracket (\p{]}) immediately occurring
 after the opening left bracket
-also doesn't need to be a metacharacter.  Eg,
+also doesn’t need to be a metacharacter.  Eg,
 \q{"[]ab]"} matches \p{]}, \p{a}, and \p{b}.
 
 \subsubsection{Some frequently used character
@@ -430,20 +430,20 @@ represented as metasequences instead of as explicit
 bracketed expressions.  \p{\d} matches a  digit
 (\p{[0-9]}); \p{\s} matches a whitespace character; and
 \p{\w} matches a character that could be part of a
-``word''.\f{Following regexp custom, we identify
-``word'' characters as
+“word”.\f{Following regexp custom, we identify
+“word” characters as
 \ifx\newenvironment\PLAINTEX
 \p{[A-Za-z0-9_]}\else
 {\tt[A-Za-z0-9\_]}\fi
 , although these
 are too restrictive for what a Schemer might consider a
-``word''.}
+“word”.}
 
 The upper-case versions of these metasequences stand
 for the inversions of the corresponding character
 classes.  Thus \p{\D} matches a non-digit, \p{\S} a
 non-whitespace character, and \p{\W} a
-non-``word'' character.
+non-“word” character.
 
 Remember to include a double backslash when putting
 these metasequences in a Scheme string:
@@ -474,7 +474,7 @@ supported are
 \p{[:algor:]}  & the letters \p{c}, \p{h}, \p{a} and \p{d} \cr
 \p{[:ascii:]}  & 7-bit ascii characters \cr
 \p{[:blank:]}  & widthful whitespace, ie, space and tab \cr
-\p{[:cntrl:]}  & ``control'' characters, viz, those with code \p{<} 32 \cr
+\p{[:cntrl:]}  & “control” characters, viz, those with code \p{<} 32 \cr
 \p{[:digit:]}  & digits, same as \p{\d} \cr
 \p{[:graph:]}  & characters that use ink \cr
 \p{[:lower:]}  & lower-case letters \cr
@@ -651,7 +651,7 @@ by \q{#f}.
 
 \q{
 (define date-re
-  ;match `month year' or `month day, year'.
+  ;match ‘month year’ or ‘month day, year’.
   ;subpattern matches day, if present
   (pregexp "([a-z]+) +([0-9]+,)? *([0-9]+)"))
 
@@ -720,8 +720,8 @@ subpattern}.
 
 In the above example, the backreference can only match
 \p{billions}.  It will not match \p{millions}, even
-though the subpattern it harks back to --- \p{([a-z]+)}
----  would have had no problem doing so:
+though the subpattern it harks back to — \p{([a-z]+)}
+—  would have had no problem doing so:
 
 \q{
 (pregexp-match "([a-z]+) and \\1"
@@ -756,7 +756,7 @@ the capture of submatch information.  Such
 clusters are called {\em non-capturing}.  In such cases,
 use \p{(?:} instead of \p{(} as the cluster opener.  In
 the following example, the  non-capturing cluster
-eliminates the ``directory'' portion of a given
+eliminates the “directory” portion of a given
 pathname, and the capturing cluster  identifies the
 basename.
 
@@ -908,7 +908,7 @@ match.
 
 \subsection{Backtracking}
 
-We've already seen that greedy quantifiers match
+We’ve already seen that greedy quantifiers match
 the maximal number of times, but the overriding priority
 is that the overall match succeed.  Consider
 
@@ -919,7 +919,7 @@ is that the overall match succeed.  Consider
 \n The regexp consists of two subregexps,
 \p{a*} followed by \p{a}.
 The subregexp \p{a*} cannot be allowed to match
-all four \p{a}'s in the text string \p{"aaaa"}, even though
+all four \p{a}’s in the text string \p{"aaaa"}, even though
 \p{*} is a greedy quantifier.  It may match only the first
 three, leaving the last one for the second subregexp.
 This ensures that the full regexp matches successfully.
@@ -927,10 +927,10 @@ This ensures that the full regexp matches successfully.
 The regexp matcher accomplishes this via a process
 called {\em backtracking}.  The matcher
 tentatively allows the greedy quantifier
-to match all four \p{a}'s, but then when it becomes
+to match all four \p{a}’s, but then when it becomes
 clear that the overall match is in jeopardy, it
 {\em backtracks} to a less greedy match of {\em
-three} \p{a}'s.  If even this fails, as in the
+three} \p{a}’s.  If even this fails, as in the
 call
 
 \q{
@@ -962,16 +962,16 @@ nonbacktracking regexp is enclosed in \p{(?>}...\p{)}.
 }
 
 In this call, the subregexp \p{?>a+} greedily matches
-all four \p{a}'s, and is denied the opportunity to
+all four \p{a}’s, and is denied the opportunity to
 backpedal.  So the overall match is denied.  The effect
-of the regexp is therefore to match one or more \p{a}'s
+of the regexp is therefore to match one or more \p{a}’s
 followed by something that is definitely non-\p{a}.
 
 \subsection{Looking ahead and behind}
 
 You can have assertions in your pattern that look {\em
 ahead} or {\em behind} to ensure that a subpattern does
-or does not occur.   These ``look around'' assertions are
+or does not occur.   These “look around” assertions are
 specified by putting the subpattern checked for in a
 cluster whose leading characters are: \p{?=} (for positive
 lookahead), \p{?!} (negative lookahead), \p{?<=}
@@ -1041,7 +1041,7 @@ are not confusing.
 
 \section{An extended example}
 
-Here's an extended example from
+Here’s an extended example from
 Friedl~\cite[p 189]{friedl:regex}
 that covers many of the features described
 above.  The problem is to fashion a regexp that will
@@ -1099,7 +1099,7 @@ them.
     ))
 }
 
-\n Let's try it out.
+\n Let’s try it out.
 
 \q{
 (pregexp-match ip-re1
@@ -1122,7 +1122,7 @@ have
 
 \n All-zero sequences are not valid IP addresses!
 Lookahead to the rescue.  Before starting to match
-\q{ip-re1}, we look ahead to ensure we don't have all
+\q{ip-re1}, we look ahead to ensure we don’t have all
 zeros.  We could use positive lookahead
 to ensure there {\em is} a digit other than
 zero.
@@ -1130,12 +1130,12 @@ zero.
 \q{
 (define ip-re
   (string-append
-    "(?=.*[1-9])" ;ensure there's a non-0 digit
+    "(?=.*[1-9])" ;ensure there’s a non-0 digit
     ip-re1))
 }
 
 \n Or we could use negative lookahead to
-ensure that what's ahead isn't composed
+ensure that what’s ahead isn’t composed
 of {\em only} zeros and dots.
 
 \q{

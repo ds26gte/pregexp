@@ -1,11 +1,13 @@
-% last change 2013-02-03
+% last change 2018-06-17
 \input tex2page
-\input txfonts
+\input tgtermes
 \input plainsection
 \input btxmac
-\let\TZPtexlayout 0
+\def\TZPhsize{450pt} 
 
 \plaintextweaks
+
+\font\tentt cmtt10
 
 \overfullrule 0pt
 
@@ -14,8 +16,9 @@
 \let\c\centerline
 \let\n\noindent
 \let\f\numberedfootnote
+\let\p\verb
+\let\q\scm
 
-%\let\q\scm
 \def\meta[#1]{{\em #1}}
 
 \ifx\shipout\UNDEFINED\else\endinput\fi
@@ -23,10 +26,3 @@
 \let\PRIMsection\section
 \def\section{\htmlpagebreak\PRIMsection}
 
-\cssblock
-body {
-max-width: 450pt;
-}
-\endcssblock
-
-%
