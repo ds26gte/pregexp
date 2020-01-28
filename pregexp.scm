@@ -439,18 +439,15 @@
           '()))))
 
 (define pregexp-match-positions-aux
-  (lambda (re s sn start n i)
+  (lambda (re s start n i)
     (let ((identity (lambda (x) x))
           (backrefs (pregexp-make-backref-list re))
           (case-sensitive? #t))
       (let sub ((re re) (i i) (sk identity) (fk (lambda () #f)))
-        ;(printf "sub ~s ~s\n" i re)
         (cond ((eqv? re ':bos)
-               ;(if (= i 0) (sk i) (fk))
                (if (= i start) (sk i) (fk))
                )
               ((eqv? re ':eos)
-               ;(if (>= i sn) (sk i) (fk))
                (if (>= i n) (sk i) (fk))
                )
               ((eqv? re ':empty)
@@ -464,7 +461,6 @@
                    (fk)
                    (sk i)))
               ((and (char? re) (< i n))
-               ;(printf "bingo\n")
                (if ((if case-sensitive? char=? char-ci=?)
                     (string-ref s i) re)
                    (sk (+ i 1)) (fk)))
@@ -539,22 +535,28 @@
                                identity (lambda () #f))))
                     (if found-it? (fk) (sk i))))
                  ((:lookbehind)
-                  (let ((n-actual n) (sn-actual sn)) 
-                    (set! n i) (set! sn i)
+                  (let ((n-actual n) (inner (cadr re)))
+                    (set! n i)
                     (let ((found-it?
-                            (sub (list ':seq '(:between #f 0 #f :any)
-                                       (cadr re) ':eos) 0 
-                                 identity (lambda () #f))))
-                      (set! n n-actual) (set! sn sn-actual)
+                           (let loup-behind ((i i))
+                             (sub inner i
+                               (lambda (i) (= i n))
+                               (lambda ()
+                                 (and (> i start)
+                                      (loup-behind (- i 1))))))))
+                      (set! n n-actual)
                       (if found-it? (sk i) (fk)))))
                  ((:neg-lookbehind)
-                  (let ((n-actual n) (sn-actual sn)) 
-                    (set! n i) (set! sn i)
+                  (let ((n-actual n) (inner (cadr re))) 
+                    (set! n i)
                     (let ((found-it?
-                            (sub (list ':seq '(:between #f 0 #f :any)
-                                       (cadr re) ':eos) 0
-                                 identity (lambda () #f))))
-                      (set! n n-actual) (set! sn sn-actual)
+                           (let loup-behind ((i i))
+                             (sub inner i
+                               (lambda (i) (= i n))
+                               (lambda ()
+                                 (and (> i start)
+                                      (loup-behind (- i 1))))))))
+                      (set! n n-actual)
                       (if found-it? (fk) (sk i)))))
                  ((:no-backtrack)
                   (let ((found-it? (sub (cadr re) i
@@ -614,7 +616,6 @@
                  (else (pregexp-error 'pregexp-match-positions-aux))))
               ((>= i n) (fk))
               (else (pregexp-error 'pregexp-match-positions-aux))))
-      ;(printf "done\n")
       (let ((backrefs (map cdr backrefs)))
         (and (car backrefs) backrefs)))))
 
@@ -666,7 +667,7 @@
       (let loop ((i start))
         (and (<= i end)
              (or (pregexp-match-positions-aux 
-                   pat str str-len start end i)
+                   pat str start end i)
                  (loop (+ i 1))))))))
 
 (define pregexp-match
