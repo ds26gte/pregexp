@@ -1,5 +1,7 @@
 2020 Jan 29
 
+Added pregexp-test-chez.ss.
+
 Lookbehind should (a) work when scanning embedded newlines;
 (b) not look past match's restricting indices.
 Bugs reported and tests supplied by Bob Burger @burgerrg.
