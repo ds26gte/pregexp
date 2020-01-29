@@ -1,7 +1,7 @@
 ":";exec mzscheme -v -f pregexp.scm -f $0
 
 ;last substantial change 2005-04-24
-;last change 2008-04-12
+;last change 2020-01-29
 
 (load (if 'nil "tester.scm" "tester.lisp"))
 
@@ -250,11 +250,24 @@
   (pregexp-match-positions "(?<=grey)hound"
     "the hound in the picture is not a greyhound")
   ((38 . 43))
-  
+
   (pregexp-match-positions "(?<!grey)hound"
     "the greyhound in the picture is not a hound")
   ((38 . 43))
+
+  (pregexp-match-positions "(?<=grey)hound"
+    "\nthe hound in the picture is not a greyhound")
+  ((39 . 44))
   
+  (pregexp-match-positions "(?<!grey)hound"
+    "\nthe greyhound in the picture is not a hound")
+  ((39 . 44))
+
+  (pregexp-match-positions "(?<=grey)hound" "greyhound" 4)
+  #f
+
+  (pregexp-match-positions "(?<!grey)hound" "greyhound" 4)
+  ((4 . 9))
   )
 
 (define n0-255

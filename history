@@ -1,3 +1,9 @@
+2020 Jan 29
+
+Lookbehind should (a) work when scanning embedded newlines;
+(b) not look past match's restricting indices.
+Bugs reported and tests supplied by Bob Burger @burgerrg.
+
 2018 June 17
 
 CL version of pregexp-quote infinite-loop bugfix. From Kaveh Yousefi

@@ -1,7 +1,7 @@
 ;Portable regular expressions for Common Lisp
 ;Dorai Sitaram
 
-(defparameter *pregexp-version* 20180617) ;last change
+(defparameter *pregexp-version* 20200129) ;last change
 
 (defparameter *pregexp-comment-char* #\;)
 
@@ -304,6 +304,7 @@
 (defun pregexp-check-if-in-char-class-p (c char-class) ;check thoroughly
   (case char-class
     (:any (not (char= c #\newline)))
+    (:super-any t)
     (:alnum (or (alpha-char-p c) (digit-char-p c)))
     (:alpha (alpha-char-p c))
     (:ascii (< (char-code c) 128))
@@ -441,9 +442,9 @@
                    (let ((n-actual n) (sn-actual sn))
                      (setq n i sn i)
                      (let ((found-it-p
-                             (match-loop `(:seq (:between nil 0 nil :any)
+                             (match-loop `(:seq (:between nil 0 nil :super-any)
                                                 ,(second re) :eos)
-                                         0
+                                         start
                                          #'identity
                                          (lambda () nil))))
                        (setq n n-actual sn sn-actual)
@@ -452,9 +453,9 @@
                    (let ((n-actual n) (sn-actual sn))
                      (setq n i sn i)
                      (let ((found-it-p
-                             (match-loop `(:seq (:between nil 0 nil :any)
+                             (match-loop `(:seq (:between nil 0 nil :super-any)
                                                 ,(second re) :eos)
-                                         0
+                                         start
                                          #'identity
                                          (lambda () nil))))
                        (setq n n-actual sn sn-actual)

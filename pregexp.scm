@@ -5,7 +5,7 @@
 ;dorai AT ccs DOT neu DOT edu
 ;Oct 2, 1999
 
-(define *pregexp-version* 20050502) ;last change
+(define *pregexp-version* 20200129) ;last change
 
 (define *pregexp-comment-char* #\;)
 
@@ -37,12 +37,12 @@
 (define pregexp-error
   ;R5RS won't give me a portable error procedure.
   ;modify this as needed
-  (lambda whatever 
+  (lambda whatever
     (display "Error:")
     (for-each (lambda (x) (display #\space) (write x))
               whatever)
     (newline)
-    (error "pregexp-error")))
+    (error 'pregexp-error "")))
 
 (define pregexp-read-pattern
   (lambda (s i n)
@@ -208,10 +208,10 @@
                           (set! *pregexp-space-sensitive?* inv?)
                           (loop (+ i 1) r #f))
                          ((#\:) (list r (+ i 1)))
-                         (else (pregexp-error 
+                         (else (pregexp-error
                                 'pregexp-read-cluster-type)))))))))
         (else (list '(:sub) i))))))
- 
+
 (define pregexp-read-subpattern
   (lambda (s i n)
     (let* ((remember-space-sensitive? *pregexp-space-sensitive?*)
@@ -223,7 +223,7 @@
       (let ((vv-re (car vv))
             (vv-i (cadr vv)))
         (if (and (< vv-i n)
-                 (char=? (string-ref s vv-i) 
+                 (char=? (string-ref s vv-i)
                    #\)))
             (list
               (let loop ((ctyp ctyp) (re vv-re))
@@ -255,7 +255,7 @@
                           (set-car! (cdddr new-re) 1))
                          ((#\{) (let ((pq (pregexp-read-nums s (+ i 1) n)))
                                   (if (not pq)
-                                      (pregexp-error 
+                                      (pregexp-error
                                         'pregexp-wrap-quantifier-if-any
                                         'left-brace-must-be-followed-by-number))
                                   (set-car! (cddr new-re) (car pq))
@@ -319,7 +319,7 @@
             (case c
               ((#\]) (if (null? r)
                          (loop (cons c r) (+ i 1))
-                         (list (cons ':one-of-chars (pregexp-reverse! r)) 
+                         (list (cons ':one-of-chars (pregexp-reverse! r))
                                (+ i 1))))
               ((#\\ )
                (let ((char-i (pregexp-read-escaped-char s i n)))
@@ -343,7 +343,6 @@
                                  (cadr posix-char-class-i)))
                          (loop (cons c r) (+ i 1))))
               (else (loop (cons c r) (+ i 1)))))))))
-
 
 ;
 
@@ -382,6 +381,7 @@
   (lambda (c char-class)
     (case char-class
       ((:any) (not (char=? c #\newline)))
+      ((:super-any) #t)
       ;
       ((:alnum) (or (char-alphabetic? c) (char-numeric? c)))
       ((:alpha) (char-alphabetic? c))
@@ -433,7 +433,7 @@
       (if (pair? re)
           (let ((car-re (car re))
                 (sub-cdr-re (sub (cdr re))))
-            (if (eqv? car-re ':sub) 
+            (if (eqv? car-re ':sub)
                 (cons (cons re #f) sub-cdr-re)
                 (append (sub car-re) sub-cdr-re)))
           '()))))
@@ -481,7 +481,7 @@
               ((pair? re)
                (case (car re)
                  ((:char-range)
-                  (if (>= i n) (fk) 
+                  (if (>= i n) (fk)
                       (pregexp-error 'pregexp-match-positions-aux)))
                  ((:one-of-chars)
                   (if (>= i n) (fk)
@@ -492,20 +492,20 @@
                                    (loup-one-of-chars (cdr chars))))))))
                  ((:neg-char)
                   (if (>= i n) (fk)
-                      (sub (cadr re) i 
+                      (sub (cadr re) i
                            (lambda (i1) (fk))
                            (lambda () (sk (+ i 1))))))
                  ((:seq)
                   (let loup-seq ((res (cdr re)) (i i))
                     (if (null? res) (sk i )
-                        (sub (car res) i 
+                        (sub (car res) i
                              (lambda (i1 )
                                (loup-seq (cdr res) i1 ))
                              fk))))
                  ((:or)
                   (let loup-or ((res (cdr re)))
                     (if (null? res) (fk)
-                        (sub (car res) i 
+                        (sub (car res) i
                              (lambda (i1 )
                                (or (sk i1 )
                                    (loup-or (cdr res))))
@@ -514,7 +514,7 @@
                   (let* ((c (pregexp-list-ref backrefs (cadr re)))
                          (backref
                            (cond (c => cdr)
-                                 (else 
+                                 (else
                                    (pregexp-error 'pregexp-match-positions-aux
                                                   'non-existent-backref re)
                                    #f))))
@@ -524,7 +524,7 @@
                           s i n (lambda (i) (sk i)) fk)
                         (sk i))))
                  ((:sub)
-                  (sub (cadr re) i 
+                  (sub (cadr re) i
                        (lambda (i1)
                          (set-cdr! (assv re backrefs) (cons i i1))
                          (sk i1)) fk))
@@ -539,20 +539,20 @@
                                identity (lambda () #f))))
                     (if found-it? (fk) (sk i))))
                  ((:lookbehind)
-                  (let ((n-actual n) (sn-actual sn)) 
+                  (let ((n-actual n) (sn-actual sn))
                     (set! n i) (set! sn i)
                     (let ((found-it?
-                            (sub (list ':seq '(:between #f 0 #f :any)
-                                       (cadr re) ':eos) 0 
+                            (sub (list ':seq '(:between #f 0 #f :super-any)
+                                       (cadr re) ':eos) start
                                  identity (lambda () #f))))
                       (set! n n-actual) (set! sn sn-actual)
                       (if found-it? (sk i) (fk)))))
                  ((:neg-lookbehind)
-                  (let ((n-actual n) (sn-actual sn)) 
+                  (let ((n-actual n) (sn-actual sn))
                     (set! n i) (set! sn i)
                     (let ((found-it?
-                            (sub (list ':seq '(:between #f 0 #f :any)
-                                       (cadr re) ':eos) 0
+                            (sub (list ':seq '(:between #f 0 #f :super-any)
+                                       (cadr re) ':eos) start
                                  identity (lambda () #f))))
                       (set! n n-actual) (set! sn sn-actual)
                       (if found-it? (fk) (sk i)))))
@@ -560,13 +560,13 @@
                   (let ((found-it? (sub (cadr re) i
                                         identity (lambda () #f))))
                     (if found-it?
-                        (sk found-it?) 
+                        (sk found-it?)
                         (fk))))
                  ((:case-sensitive :case-insensitive)
                   (let ((old case-sensitive?))
                     (set! case-sensitive?
                       (eqv? (car re) ':case-sensitive))
-                    (sub (cadr re) i 
+                    (sub (cadr re) i
                          (lambda (i1)
                            (set! case-sensitive? old)
                            (sk i1))
@@ -575,17 +575,17 @@
                            (fk)))))
                  ((:between)
                   (let* ((maximal? (not (cadr re)))
-                         (p (caddr re)) 
+                         (p (caddr re))
                          (q (cadddr re))
                          (could-loop-infinitely? (and maximal? (not q)))
                          (re (car (cddddr re))))
                     (let loup-p ((k 0) (i i) )
                       (if (< k p)
-                          (sub re i 
+                          (sub re i
                                (lambda (i1 )
                                  (if (and could-loop-infinitely?
                                           (= i1 i))
-                                     (pregexp-error 
+                                     (pregexp-error
                                        'pregexp-match-positions-aux
                                        'greedy-quantifier-operand-could-be-empty))
                                  (loup-p (+ k 1) i1 ))
@@ -607,7 +607,7 @@
                                                    (fk)))
                                              fk)
                                         (or (fk)
-                                            (sub re i 
+                                            (sub re i
                                                  (lambda (i1)
                                                    (loup-q (+ k 1) i1))
                                                  fk)))))))))))
@@ -653,7 +653,7 @@
   (lambda (pat str . opt-args)
     (cond ((string? pat) (set! pat (pregexp pat)))
           ((pair? pat) #t)
-          (else (pregexp-error 'pregexp-match-positions 
+          (else (pregexp-error 'pregexp-match-positions
                                'pattern-must-be-compiled-or-string-regexp
                                pat)))
     (let* ((str-len (string-length str))
@@ -661,11 +661,11 @@
                       (let ((start (car opt-args)))
                         (set! opt-args (cdr opt-args))
                         start)))
-           (end (if (null? opt-args) str-len 
+           (end (if (null? opt-args) str-len
                     (car opt-args))))
       (let loop ((i start))
         (and (<= i end)
-             (or (pregexp-match-positions-aux 
+             (or (pregexp-match-positions-aux
                    pat str str-len start end i)
                  (loop (+ i 1))))))))
 
@@ -693,7 +693,7 @@
                      ;(printf "j = ~a; k = ~a; i = ~a~n" j k i)
                      (cond ((= j k)
                             ;(printf "producing ~s~n" (substring str i (+ j 1)))
-                            (loop (+ k 1) 
+                            (loop (+ k 1)
                                   (cons (substring str i (+ j 1)) r) #t))
                            ((and (= j i) picked-up-one-undelimited-char?)
                             (loop k r #f))
@@ -717,17 +717,17 @@
 
 (define pregexp-replace*
   (lambda (pat str ins)
-    ;return str with every occurrence of pat 
+    ;return str with every occurrence of pat
     ;replaced by ins
     (let ((pat (if (string? pat) (pregexp pat) pat))
           (n (string-length str))
           (ins-len (string-length ins)))
       (let loop ((i 0) (r ""))
         ;i = index in str to start replacing from
-        ;r = already calculated prefix of answer 
-        (if (>= i n) r 
+        ;r = already calculated prefix of answer
+        (if (>= i n) r
             (let ((pp (pregexp-match-positions pat str i n)))
-              (if (not pp) 
+              (if (not pp)
                   (if (= i 0)
                       ;this implies pat didn't match str at
                       ;all, so let's return original str
@@ -753,7 +753,6 @@
                                     #\[ #\] #\{ #\} #\( #\)))
                       (cons #\\ (cons c r))
                       (cons c r))))))))
-    
 
 ;(trace pregexp-read-pattern pregexp-read-char-list pregexp-read-piece)
 ;eof
