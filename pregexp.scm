@@ -5,7 +5,7 @@
 ;dorai AT ccs DOT neu DOT edu
 ;Oct 2, 1999
 
-(define *pregexp-version* 20200129) ;last change
+(define *pregexp-version* 20200130) ;last change
 
 (define *pregexp-comment-char* #\;)
 
@@ -89,7 +89,7 @@
         ((#\()
          (pregexp-wrap-quantifier-if-any
            (pregexp-read-subpattern s (+ i 1) n) s n))
-        ((#\\ )
+        ((#\\)
          (pregexp-wrap-quantifier-if-any
            (cond ((pregexp-read-escaped-number s i n) =>
                   (lambda (num-i)
@@ -321,7 +321,7 @@
                          (loop (cons c r) (+ i 1))
                          (list (cons ':one-of-chars (pregexp-reverse! r))
                                (+ i 1))))
-              ((#\\ )
+              ((#\\)
                (let ((char-i (pregexp-read-escaped-char s i n)))
                  (if char-i (loop (cons (car char-i) r) (cadr char-i))
                      (pregexp-error 'pregexp-read-char-list 'backslash))))
@@ -497,17 +497,17 @@
                            (lambda () (sk (+ i 1))))))
                  ((:seq)
                   (let loup-seq ((res (cdr re)) (i i))
-                    (if (null? res) (sk i )
+                    (if (null? res) (sk i)
                         (sub (car res) i
-                             (lambda (i1 )
-                               (loup-seq (cdr res) i1 ))
+                             (lambda (i1)
+                               (loup-seq (cdr res) i1))
                              fk))))
                  ((:or)
                   (let loup-or ((res (cdr re)))
                     (if (null? res) (fk)
                         (sub (car res) i
-                             (lambda (i1 )
-                               (or (sk i1 )
+                             (lambda (i1)
+                               (or (sk i1)
                                    (loup-or (cdr res))))
                              (lambda () (loup-or (cdr res)))))))
                  ((:backref)
@@ -579,21 +579,21 @@
                          (q (cadddr re))
                          (could-loop-infinitely? (and maximal? (not q)))
                          (re (car (cddddr re))))
-                    (let loup-p ((k 0) (i i) )
+                    (let loup-p ((k 0) (i i))
                       (if (< k p)
                           (sub re i
-                               (lambda (i1 )
+                               (lambda (i1)
                                  (if (and could-loop-infinitely?
                                           (= i1 i))
                                      (pregexp-error
                                        'pregexp-match-positions-aux
                                        'greedy-quantifier-operand-could-be-empty))
-                                 (loup-p (+ k 1) i1 ))
+                                 (loup-p (+ k 1) i1))
                                fk)
                           (let ((q (and q (- q p))))
                             (let loup-q ((k 0) (i i))
                               (let ((fk (lambda ()
-                                          (sk i ))))
+                                          (sk i))))
                                 (if (and q (>= k q)) (fk)
                                     (if maximal?
                                         (sub re i
@@ -623,7 +623,7 @@
     (let loop ((i 0) (r ""))
       (if (>= i n) r
           (let ((c (string-ref ins i)))
-            (if (char=? c #\\ )
+            (if (char=? c #\\)
                 (let* ((br-i (pregexp-read-escaped-number ins i n))
                        (br (if br-i (car br-i)
                                (if (char=? (string-ref ins (+ i 1)) #\&) 0
