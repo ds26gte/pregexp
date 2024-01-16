@@ -1,3 +1,4 @@
+(in-package :pregexp)
 ;Portable regular expressions for Common Lisp
 ;Dorai Sitaram
 
